@@ -1,0 +1,89 @@
+<!-- Привет, попробую каждому блоку дать объяснение -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <!-- По стилю хотелось все сделать ровно и хоть немнного не сыро. Поэтому все отцентрировал -->
+        <!-- Добавил смену курсора, а также стили для надписи, появляющейся при сборке авто -->
+        
+        <title>Магазин на компьютерном стуле</title> 
+        <style>
+            body {
+                text-align: center;
+            }
+            img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            area {
+                cursor: pointer;
+            }
+            #car {
+                display: none;
+                color: #FF8C00;
+                font-style: italic;
+                font-size: 40px;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <!-- В начале стандартные заголовки. Чуть ниже кнопка корзины, которую взял из личного кабинета Ecwid. -->
+        <!-- Далее изображение с выделенными областями для клика, чтобы добавить товары в корзину  -->
+        
+        <h1>Добро пожаловать в магазин подержанных автозапчастей Александра</h1>
+        <h3>Соберите автомобиль из лучших 5-ти деталей планеты Земля: фары, капот, лобовое стекло, двери и колесо</h3>
+        <h4><s>Вы конечно соберите, но уехать на этом будет сложно</s></h4>
+        <div class="ec-cart-widget"></div>
+            <img id="carImage" src="https://img.razrisyika.ru/img/35/1200/136329-radostnaya-raskraska-krd.jpg" title="Автомобиль!" usemap="#Carscheme">
+            <div id="car">Вы собрали автомобиль!</div>
+        <map name="Carscheme">
+            <area shape="circle" coords="580,652,100" title="Колесо" onclick="addProduct(678589337)">
+            <area shape="circle" coords="1070,574,60" title="Колесо" onclick="addProduct(678589337)">
+            <area shape="poly" coords="663,411,739,314,919,283,1050,374,1032,482,974,589,671,642" title="Двери" onclick="addProduct(678589342)">
+            <area shape="poly" coords="582,445,295,422,465,303,704,307" title="Лобовое стекло" onclick="addProduct(678589338)">
+            <area shape="poly" coords="273,426,82,539,228,553,522,453" title="Капот" onclick="addProduct(678589341)">
+            <area shape="rect" coords="265,522,441,584" title="Фары" onclick="addProduct(678589335)">
+            <area shape="rect" coords="1100,366,1154,411" title="Фары" onclick="addProduct(678589335)">
+        </map>
+        <div>
+
+        <!-- Скрипт который работает следующим образом: -->
+        <!-- В корзину добавляется только один отдельный элемент автомобиля -->
+        <!-- При попытке добавления двух отдельных элементов автомобиля появляется сообщение об ошибке -->
+        <!-- Всего элементов пять. При сборке всех элементов авто, картинка исчезает и появляется надпись "Вы собрали автомобиль!" -->
+        <!-- Последний элемент скрипта добавлен, чтобы при рефреше страницы надпись также показывалась -->
+         
+        <script data-cfasync="false" type="text/javascript" src="https://app.ecwid.com/script.js?106017277&data_platform=code&data_date=2024-07-08" charset="utf-8"></script>
+        <script type="text/javascript"> Ecwid.init();
+        function addProduct(productId) {
+            Ecwid.Cart.get(function(cart) {
+                if (cart.items.length === 0) {
+            Ecwid.Cart.addProduct(productId, function(success, product, cart) {
+            });
+            }
+                else {let i = cart.items.length - 1;
+                        if (cart.items[i].product.id == productId) {
+                            alert('Добавьте других запчастей');
+                        } else {
+                Ecwid.Cart.addProduct(productId, function(success, product, cart) {
+                    if (cart.items.length === 5)
+                    {
+                        document.getElementById("car").style.display = "block";
+                        document.getElementById("carImage").style.display = "none";
+                }});
+            }}
+        });
+        }
+        Ecwid.OnCartChanged.add(function(cart){
+            if (cart.items.length === 5)
+                    {
+                        document.getElementById("car").style.display = "block";
+                        document.getElementById("carImage").style.display = "none";
+                }})
+        </script>
+        </div>
+    </body>
+</html>
